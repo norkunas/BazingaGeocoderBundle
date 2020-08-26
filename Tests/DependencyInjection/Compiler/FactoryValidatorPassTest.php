@@ -32,14 +32,14 @@ class FactoryValidatorPassTest extends TestCase
      */
     private $factoryId;
 
-    protected function doSetUp()
+    protected function doSetUp(): void
     {
         $this->compilerPass = new FactoryValidatorPass();
         $this->factoryId = 'dummy_factory_id';
         $this->compilerPass::addFactoryServiceId($this->factoryId);
     }
 
-    protected function doTearDown()
+    protected function doTearDown(): void
     {
         $reflection = new \ReflectionObject($this->compilerPass);
         $prop = $reflection->getProperty('factoryServiceIds');
@@ -47,17 +47,17 @@ class FactoryValidatorPassTest extends TestCase
         $prop->setValue([]);
     }
 
-    public function testProcessThrows()
+    public function testProcessThrows(): void
     {
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionMessage("Factory with ID \"$this->factoryId\" could not be found");
 
         $container = $this->createMock(ContainerBuilder::class);
-        $container->expects($this->once())
+        $container->expects(self::once())
             ->method('hasAlias')
             ->with($this->factoryId)
             ->willReturn(false);
-        $container->expects($this->once())
+        $container->expects(self::once())
             ->method('hasDefinition')
             ->with($this->factoryId)
             ->willReturn(false);
@@ -65,14 +65,14 @@ class FactoryValidatorPassTest extends TestCase
         $this->compilerPass->process($container);
     }
 
-    public function testProcessDoesntThrowIfAliasExists()
+    public function testProcessDoesntThrowIfAliasExists(): void
     {
         $container = $this->createMock(ContainerBuilder::class);
-        $container->expects($this->once())
+        $container->expects(self::once())
             ->method('hasAlias')
             ->with($this->factoryId)
             ->willReturn(true);
-        $container->expects($this->never())
+        $container->expects(self::never())
             ->method('hasDefinition')
             ->with($this->factoryId)
             ->willReturn(false);
@@ -80,14 +80,14 @@ class FactoryValidatorPassTest extends TestCase
         $this->compilerPass->process($container);
     }
 
-    public function testProcessDoesntThrowIfDefinitionExists()
+    public function testProcessDoesntThrowIfDefinitionExists(): void
     {
         $container = $this->createMock(ContainerBuilder::class);
-        $container->expects($this->once())
+        $container->expects(self::once())
             ->method('hasAlias')
             ->with($this->factoryId)
             ->willReturn(false);
-        $container->expects($this->once())
+        $container->expects(self::once())
             ->method('hasDefinition')
             ->with($this->factoryId)
             ->willReturn(true);

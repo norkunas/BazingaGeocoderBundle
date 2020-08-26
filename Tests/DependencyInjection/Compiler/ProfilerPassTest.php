@@ -30,12 +30,12 @@ class ProfilerPassTest extends TestCase
      */
     private $compilerPass;
 
-    protected function doSetUp()
+    protected function doSetUp(): void
     {
         $this->compilerPass = new ProfilerPass();
     }
 
-    public function testRegistersProviders()
+    public function testRegistersProviders(): void
     {
         $geocoderDataCollectorDefinition = new Definition(GeocoderDataCollector::class);
 
@@ -47,7 +47,7 @@ class ProfilerPassTest extends TestCase
 
         $this->compilerPass->process($containerBuilder);
 
-        $this->assertTrue($geocoderDataCollectorDefinition->hasMethodCall('addInstance'));
-        $this->assertInstanceOf(Reference::class, $geocoderDataCollectorDefinition->getMethodCalls()[0][1][0]);
+        self::assertTrue($geocoderDataCollectorDefinition->hasMethodCall('addInstance'));
+        self::assertInstanceOf(Reference::class, $geocoderDataCollectorDefinition->getMethodCalls()[0][1][0]);
     }
 }

@@ -30,12 +30,12 @@ class AddProvidersPassTest extends TestCase
      */
     private $compilerPass;
 
-    protected function doSetUp()
+    protected function doSetUp(): void
     {
         $this->compilerPass = new AddProvidersPass();
     }
 
-    public function testRegistersProviders()
+    public function testRegistersProviders(): void
     {
         $containerBuilder = new ContainerBuilder();
         $containerBuilder->setDefinition(ProviderAggregator::class, new Definition(ProviderAggregator::class));
@@ -49,7 +49,7 @@ class AddProvidersPassTest extends TestCase
         $providerAggregator = $containerBuilder->get(ProviderAggregator::class);
         $providers = $providerAggregator->getProviders();
 
-        $this->assertArrayHasKey('bing_maps', $providers);
-        $this->assertInstanceOf(BingMaps::class, $providers['bing_maps']);
+        self::assertArrayHasKey('bing_maps', $providers);
+        self::assertInstanceOf(BingMaps::class, $providers['bing_maps']);
     }
 }

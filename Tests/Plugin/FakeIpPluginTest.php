@@ -22,25 +22,25 @@ use PHPUnit\Framework\TestCase;
  */
 class FakeIpPluginTest extends TestCase
 {
-    public function testSimpleHandleQuery()
+    public function testSimpleHandleQuery(): void
     {
         $fakeIpPlugin = new FakeIpPlugin('127.0.0.1', '123.123.123.123');
         $query = GeocodeQuery::create('127.0.0.1');
 
         /** @var Query $query */
-        $query = $fakeIpPlugin->handleQuery($query, function (Query $query) { return $query; }, function () {});
+        $query = $fakeIpPlugin->handleQuery($query, static function (Query $query) { return $query; }, static function () {});
 
-        $this->assertSame($query->getText(), '123.123.123.123');
+        self::assertSame($query->getText(), '123.123.123.123');
     }
 
-    public function testHandleQueryUsingFaker()
+    public function testHandleQueryUsingFaker(): void
     {
         $fakeIpPlugin = new FakeIpPlugin('127.0.0.1', '192.168.1.1', true);
         $query = GeocodeQuery::create('127.0.0.1');
 
         /** @var Query $query */
-        $query = $fakeIpPlugin->handleQuery($query, function (Query $query) { return $query; }, function () {});
+        $query = $fakeIpPlugin->handleQuery($query, static function (Query $query) { return $query; }, static function () {});
 
-        $this->assertNotSame($query->getText(), '192.168.1.1');
+        self::assertNotSame($query->getText(), '192.168.1.1');
     }
 }

@@ -52,7 +52,7 @@ class GeocoderListenerTest extends OrmTestCase
              * We check for DoctrineTestCase because it is in the same package as OrmTestCase and we want to be able to
              * fake OrmTestCase
              */
-            static::fail('Doctrine\Tests\OrmTestCase was not found.');
+            self::fail('Doctrine\Tests\OrmTestCase was not found.');
         }
     }
 
@@ -86,7 +86,7 @@ class GeocoderListenerTest extends OrmTestCase
         ]);
     }
 
-    public function testPersistForProperty()
+    public function testPersistForProperty(): void
     {
         $dummy = new DummyWithProperty();
         $dummy->address = 'Berlin, Germany';
@@ -94,8 +94,8 @@ class GeocoderListenerTest extends OrmTestCase
         $this->em->persist($dummy);
         $this->em->flush();
 
-        $this->assertNotNull($dummy->latitude);
-        $this->assertNotNull($dummy->longitude);
+        self::assertNotNull($dummy->latitude);
+        self::assertNotNull($dummy->longitude);
 
         $clone = clone $dummy;
         $dummy->address = 'Paris, France';
@@ -103,11 +103,11 @@ class GeocoderListenerTest extends OrmTestCase
         $this->em->persist($dummy);
         $this->em->flush();
 
-        $this->assertNotEquals($clone->latitude, $dummy->latitude);
-        $this->assertNotEquals($clone->longitude, $dummy->longitude);
+        self::assertNotEquals($clone->latitude, $dummy->latitude);
+        self::assertNotEquals($clone->longitude, $dummy->longitude);
     }
 
-    public function testPersistForGetter()
+    public function testPersistForGetter(): void
     {
         $dummy = new DummyWithGetter();
         $dummy->setAddress('Berlin, Germany');
@@ -115,8 +115,8 @@ class GeocoderListenerTest extends OrmTestCase
         $this->em->persist($dummy);
         $this->em->flush();
 
-        $this->assertNotNull($dummy->getLatitude());
-        $this->assertNotNull($dummy->getLongitude());
+        self::assertNotNull($dummy->getLatitude());
+        self::assertNotNull($dummy->getLongitude());
 
         $clone = clone $dummy;
         $dummy->setAddress('Paris, France');
@@ -124,11 +124,11 @@ class GeocoderListenerTest extends OrmTestCase
         $this->em->persist($dummy);
         $this->em->flush();
 
-        $this->assertNotEquals($clone->getLatitude(), $dummy->getLatitude());
-        $this->assertNotEquals($clone->getLongitude(), $dummy->getLongitude());
+        self::assertNotEquals($clone->getLatitude(), $dummy->getLatitude());
+        self::assertNotEquals($clone->getLongitude(), $dummy->getLongitude());
     }
 
-    public function testPersistForInvalidGetter()
+    public function testPersistForInvalidGetter(): void
     {
         $dummy = new DummyWithInvalidGetter();
         $dummy->setAddress('Berlin, Germany');
@@ -140,7 +140,7 @@ class GeocoderListenerTest extends OrmTestCase
         $this->em->flush();
     }
 
-    public function testPersistForEmptyProperty()
+    public function testPersistForEmptyProperty(): void
     {
         $dummy = new DummyWithEmptyProperty();
         $dummy->address = '';
@@ -148,11 +148,11 @@ class GeocoderListenerTest extends OrmTestCase
         $this->em->persist($dummy);
         $this->em->flush();
 
-        $this->assertNull($dummy->latitude);
-        $this->assertNull($dummy->longitude);
+        self::assertNull($dummy->latitude);
+        self::assertNull($dummy->longitude);
     }
 
-    public function testDoesNotGeocodeIfAddressNotChanged()
+    public function testDoesNotGeocodeIfAddressNotChanged(): void
     {
         $this->em->getEventManager()->removeEventListener(Events::onFlush, $this->listener);
 
@@ -179,10 +179,10 @@ class GeocoderListenerTest extends OrmTestCase
 
         $this->em->flush();
 
-        $this->assertSame('Frankfurt, Germany', $dummy->address);
-        $this->assertSame(0, $dummy->latitude);
-        $this->assertSame(0, $dummy->longitude);
-        $this->assertCount(1, $client->getResponses());
+        self::assertSame('Frankfurt, Germany', $dummy->address);
+        self::assertSame(0, $dummy->latitude);
+        self::assertSame(0, $dummy->longitude);
+        self::assertCount(1, $client->getResponses());
     }
 }
 

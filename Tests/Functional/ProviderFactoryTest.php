@@ -54,12 +54,12 @@ class ProviderFactoryTest extends BaseBundleTestCase
         $this->addCompilerPass(new PublicServicePass('|bazinga.*|'));
     }
 
-    protected function getBundleClass()
+    protected function getBundleClass(): string
     {
         return BazingaGeocoderBundle::class;
     }
 
-    public function getProviders()
+    public function getProviders(): array
     {
         return [
             [AlgoliaPlaces::class, ['empty', 'acme']],
@@ -95,7 +95,7 @@ class ProviderFactoryTest extends BaseBundleTestCase
     /**
      * @dataProvider getProviders
      */
-    public function testProviderConfiguration($class, $serviceNames)
+    public function testProviderConfiguration(string $class, array $serviceNames): void
     {
         // Create a new Kernel
         $kernel = $this->createKernel();
@@ -108,9 +108,9 @@ class ProviderFactoryTest extends BaseBundleTestCase
         $container = $this->getContainer();
 
         foreach ($serviceNames as $name) {
-            $this->assertTrue($container->has('bazinga_geocoder.provider.'.$name));
+            self::assertTrue($container->has('bazinga_geocoder.provider.'.$name));
             $service = $container->get('bazinga_geocoder.provider.'.$name);
-            $this->assertInstanceOf($class, NSA::getProperty($service, 'provider'));
+            self::assertInstanceOf($class, NSA::getProperty($service, 'provider'));
         }
     }
 }

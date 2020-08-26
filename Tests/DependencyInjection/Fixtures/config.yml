@@ -4,7 +4,7 @@ bazinga_geocoder:
         ip: 33.33.33.11
     providers:
         bing_maps:
-          factory: Bazinga\GeocoderBundle\ProviderFactory\GoogleMapsFactory
-          options:
-            api_key: 123
-            locale: en_US
+            factory: Bazinga\GeocoderBundle\ProviderFactory\GoogleMapsFactory
+            options:
+                api_key: 123
+                locale: en_US

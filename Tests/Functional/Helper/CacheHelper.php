@@ -30,12 +30,12 @@ class CacheHelper implements CacheInterface
         return true;
     }
 
-    public function delete($key)
+    public function delete($key): bool
     {
         return true;
     }
 
-    public function clear()
+    public function clear(): bool
     {
         return true;
     }
@@ -45,17 +45,17 @@ class CacheHelper implements CacheInterface
         return [];
     }
 
-    public function setMultiple($values, $ttl = null)
+    public function setMultiple($values, $ttl = null): bool
     {
         return true;
     }
 
-    public function deleteMultiple($keys)
+    public function deleteMultiple($keys): bool
     {
         return true;
     }
 
-    public function has($key)
+    public function has($key): bool
     {
         return false;
     }

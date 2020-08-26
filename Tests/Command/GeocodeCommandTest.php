@@ -32,7 +32,7 @@ class GeocodeCommandTest extends TestCase
 {
     private static $address = '10 rue Gambetta, Paris, France';
 
-    public function testExecute()
+    public function testExecute(): void
     {
         $coordinates = new Coordinates(1, 2);
         $country = new Country('France', 'FR');
@@ -48,7 +48,7 @@ class GeocodeCommandTest extends TestCase
 
         $geocoder = $this->createMock(ProviderAggregator::class);
         $query = GeocodeQuery::create(self::$address);
-        $geocoder->expects($this->once())
+        $geocoder->expects(self::once())
             ->method('geocodeQuery')
             ->with($query)
             ->willReturn(new AddressCollection([$address]));
@@ -57,11 +57,11 @@ class GeocodeCommandTest extends TestCase
 
         $kernel = $this->createMock(Kernel::class);
 
-        $kernel->expects($this->any())
+        $kernel->expects(self::any())
             ->method('getContainer')
-            ->will($this->returnValue($container));
+            ->willReturn($container);
 
-        $kernel->expects($this->any())
+        $kernel->expects(self::any())
             ->method('getBundles')
             ->willReturn([]);
 

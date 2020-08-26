@@ -47,17 +47,17 @@ class AnnotationDriverTest extends TestCase
         $this->driver = new AnnotationDriver($this->reader);
     }
 
-    public function testLoadMetadata()
+    public function testLoadMetadata(): void
     {
         $obj = new Dummy();
         $metadata = $this->driver->loadMetadataFromObject($obj);
 
-        $this->assertInstanceOf('ReflectionProperty', $metadata->addressProperty);
-        $this->assertInstanceOf('ReflectionProperty', $metadata->latitudeProperty);
-        $this->assertInstanceOf('ReflectionProperty', $metadata->longitudeProperty);
+        self::assertInstanceOf('ReflectionProperty', $metadata->addressProperty);
+        self::assertInstanceOf('ReflectionProperty', $metadata->latitudeProperty);
+        self::assertInstanceOf('ReflectionProperty', $metadata->longitudeProperty);
     }
 
-    public function testLoadMetadataFromWrongObject()
+    public function testLoadMetadataFromWrongObject(): void
     {
         $this->expectException(MappingException::class);
         $this->expectExceptionMessage('The class '.Dummy2::class.' is not geocodeable');
@@ -65,9 +65,9 @@ class AnnotationDriverTest extends TestCase
         $this->driver->loadMetadataFromObject(new Dummy2());
     }
 
-    public function testIsGeocodable()
+    public function testIsGeocodable(): void
     {
-        $this->assertTrue($this->driver->isGeocodeable(new Dummy()));
+        self::assertTrue($this->driver->isGeocodeable(new Dummy()));
     }
 }
 
