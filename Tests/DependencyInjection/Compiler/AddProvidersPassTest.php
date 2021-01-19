@@ -17,25 +17,22 @@ use Geocoder\Provider\BingMaps\BingMaps;
 use Geocoder\ProviderAggregator;
 use Http\Client\Curl\Client;
 use PHPUnit\Framework\TestCase;
-use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
-class AddProvidersPassTest extends TestCase
+final class AddProvidersPassTest extends TestCase
 {
-    use SetUpTearDownTrait;
-
     /**
      * @var AddProvidersPass
      */
     private $compilerPass;
 
-    protected function doSetUp()
+    protected function setUp(): void
     {
         $this->compilerPass = new AddProvidersPass();
     }
 
-    public function testRegistersProviders()
+    public function testRegistersProviders(): void
     {
         $containerBuilder = new ContainerBuilder();
         $containerBuilder->setDefinition(ProviderAggregator::class, new Definition(ProviderAggregator::class));
@@ -49,7 +46,7 @@ class AddProvidersPassTest extends TestCase
         $providerAggregator = $containerBuilder->get(ProviderAggregator::class);
         $providers = $providerAggregator->getProviders();
 
-        $this->assertArrayHasKey('bing_maps', $providers);
-        $this->assertInstanceOf(BingMaps::class, $providers['bing_maps']);
+        self::assertArrayHasKey('bing_maps', $providers);
+        self::assertInstanceOf(BingMaps::class, $providers['bing_maps']);
     }
 }

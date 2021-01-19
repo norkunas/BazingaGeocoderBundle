@@ -43,23 +43,20 @@ use Geocoder\Provider\Yandex\Yandex;
 use Nyholm\BundleTest\BaseBundleTestCase;
 use Nyholm\BundleTest\CompilerPass\PublicServicePass;
 use Nyholm\NSA;
-use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 
-class ProviderFactoryTest extends BaseBundleTestCase
+final class ProviderFactoryTest extends BaseBundleTestCase
 {
-    use SetUpTearDownTrait;
-
-    protected function doSetUp(): void
+    protected function setUp(): void
     {
         $this->addCompilerPass(new PublicServicePass('|bazinga.*|'));
     }
 
-    protected function getBundleClass()
+    protected function getBundleClass(): string
     {
         return BazingaGeocoderBundle::class;
     }
 
-    public function getProviders()
+    public function getProviders(): iterable
     {
         yield [AlgoliaPlaces::class, ['empty', 'acme']];
         yield [ArcGISOnline::class, ['empty', 'acme']];
@@ -97,7 +94,7 @@ class ProviderFactoryTest extends BaseBundleTestCase
     /**
      * @dataProvider getProviders
      */
-    public function testProviderConfiguration($class, $serviceNames)
+    public function testProviderConfiguration($class, $serviceNames): void
     {
         // Create a new Kernel
         $kernel = $this->createKernel();
@@ -110,9 +107,9 @@ class ProviderFactoryTest extends BaseBundleTestCase
         $container = $this->getContainer();
 
         foreach ($serviceNames as $name) {
-            $this->assertTrue($container->has('bazinga_geocoder.provider.'.$name));
+            self::assertTrue($container->has('bazinga_geocoder.provider.'.$name));
             $service = $container->get('bazinga_geocoder.provider.'.$name);
-            $this->assertInstanceOf($class, NSA::getProperty($service, 'provider'));
+            self::assertInstanceOf($class, NSA::getProperty($service, 'provider'));
         }
     }
 }

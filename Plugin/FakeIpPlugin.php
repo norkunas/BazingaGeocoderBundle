@@ -36,11 +36,6 @@ class FakeIpPlugin implements Plugin
     private $replacement;
 
     /**
-     * @var bool
-     */
-    private $useFaker;
-
-    /**
      * @var Generator|null
      */
     private $faker;
@@ -49,7 +44,6 @@ class FakeIpPlugin implements Plugin
     {
         $this->needle = $needle;
         $this->replacement = $replacement;
-        $this->useFaker = $useFaker;
 
         if ($useFaker) {
             $this->faker = new Generator();
