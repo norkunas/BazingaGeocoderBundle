@@ -13,12 +13,15 @@ declare(strict_types=1);
 namespace Bazinga\GeocoderBundle\ProviderFactory;
 
 use Geocoder\Provider\Provider;
+use Nyholm\Dsn\Configuration\Dsn;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
 interface ProviderFactoryInterface
 {
+    public function create(Dsn $dsn): Provider;
+
     public function createProvider(array $options = []): Provider;
 
     /**

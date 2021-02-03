@@ -15,6 +15,7 @@ namespace Bazinga\GeocoderBundle\ProviderFactory;
 use Geocoder\Provider\GoogleMaps\GoogleMaps;
 use Geocoder\Provider\Provider;
 use Http\Discovery\HttpClientDiscovery;
+use Nyholm\Dsn\Configuration\Dsn;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class GoogleMapsFactory extends AbstractFactory
@@ -22,6 +23,15 @@ final class GoogleMapsFactory extends AbstractFactory
     protected static $dependencies = [
         ['requiredClass' => GoogleMaps::class, 'packageName' => 'geocoder-php/google-maps-provider'],
     ];
+
+    public function create(Dsn $dsn): Provider
+    {
+        $httplug = $this->httpClient ?? HttpClientDiscovery::find();
+        $region = $dsn->getParameter('region');
+        $apiKey = $dsn->getParameter('apiKey');
+
+        return new GoogleMaps($httplug, $region, $apiKey);
+    }
 
     protected function getProvider(array $config): Provider
     {
