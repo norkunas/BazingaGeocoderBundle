@@ -23,6 +23,7 @@ use Geocoder\Plugin\PluginProvider;
 final class PluginProviderFactory
 {
     /**
+     * @todo: real type on $factory?
      * @param Plugin[]                          $plugins
      * @param ProviderFactoryInterface|callable $factory
      * @param array<mixed, mixed>               $config                config to the client factory

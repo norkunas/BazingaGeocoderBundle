@@ -56,9 +56,7 @@ class Configuration implements ConfigurationInterface
             ->arrayNode('fake_ip')
                 ->beforeNormalization()
                 ->ifString()
-                    ->then(function ($value) {
-                        return ['ip' => $value];
-                    })
+                    ->then(static fn (string $v) => ['ip' => $v])
                 ->end()
                 ->canBeEnabled()
                 ->children()
@@ -73,10 +71,7 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
-    /**
-     * @return ArrayNodeDefinition
-     */
-    private function getProvidersNode()
+    private function getProvidersNode(): ArrayNodeDefinition
     {
         $treeBuilder = new TreeBuilder('providers');
         $rootNode = $treeBuilder->getRootNode();
@@ -95,7 +90,7 @@ class Configuration implements ConfigurationInterface
                     ->scalarNode('cache_precision')
                         ->defaultNull()
                         ->info('Precision of the coordinates to cache.')
-                        ->end()
+                    ->end()
                     ->scalarNode('limit')->defaultNull()->end()
                     ->scalarNode('locale')->defaultNull()->end()
                     ->scalarNode('logger')->defaultNull()->end()
@@ -111,16 +106,13 @@ class Configuration implements ConfigurationInterface
 
     /**
      * Create plugin node of a client.
-     *
-     * @return ArrayNodeDefinition The plugin node
      */
-    private function createClientPluginNode()
+    private function createClientPluginNode(): ArrayNodeDefinition
     {
         $treeBuilder = new TreeBuilder('plugins');
         $rootNode = $treeBuilder->getRootNode();
         assert($rootNode instanceof ArrayNodeDefinition);
 
-        /** @var ArrayNodeDefinition $pluginList */
         $pluginList = $rootNode
             ->info('A list of plugin service ids. The order is important.')
             ->arrayPrototype()

@@ -25,34 +25,21 @@ final class AttributeDriverTest extends TestCase
 {
     private AttributeDriver $driver;
 
-    public static function setUpBeforeClass(): void
-    {
-        if (PHP_VERSION_ID < 80000) {
-            self::markTestSkipped(sprintf('"%s" is only supported on PHP 8', AttributeDriver::class));
-        }
-    }
-
     protected function setUp(): void
     {
         $this->driver = new AttributeDriver();
     }
 
-    /**
-     * @requires PHP 8.0
-     */
     public function testLoadMetadata(): void
     {
         $obj = new Dummy();
         $metadata = $this->driver->loadMetadataFromObject($obj);
 
-        self::assertInstanceOf('ReflectionProperty', $metadata->addressProperty);
-        self::assertInstanceOf('ReflectionProperty', $metadata->latitudeProperty);
-        self::assertInstanceOf('ReflectionProperty', $metadata->longitudeProperty);
+        self::assertInstanceOf(\ReflectionProperty::class, $metadata->addressProperty);
+        self::assertInstanceOf(\ReflectionProperty::class, $metadata->latitudeProperty);
+        self::assertInstanceOf(\ReflectionProperty::class, $metadata->longitudeProperty);
     }
 
-    /**
-     * @requires PHP 8.0
-     */
     public function testLoadMetadataFromWrongObject(): void
     {
         $this->expectException(MappingException::class);
@@ -61,9 +48,6 @@ final class AttributeDriverTest extends TestCase
         $this->driver->loadMetadataFromObject(new Dummy2());
     }
 
-    /**
-     * @requires PHP 8.0
-     */
     public function testIsGeocodable(): void
     {
         self::assertTrue($this->driver->isGeocodeable(new Dummy()));

@@ -15,9 +15,6 @@ namespace Bazinga\GeocoderBundle\Validator\Constraint;
 use Symfony\Component\Validator\Constraint;
 
 /**
- * @Annotation
- * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
- *
  * @author Tomas Norkūnas <norkunas.tom@gmail.com>
  */
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
@@ -30,28 +27,15 @@ class Address extends Constraint
     ];
 
     /**
-     * @var array<string, string>
-     *
-     * @deprecated since BazingaGeocoderBundle 5.17, use const ERROR_NAMES instead
+     * @param class-string $service
      */
-    protected static $errorNames = self::ERROR_NAMES;
-
-    /**
-     * @var string
-     */
-    public $service = AddressValidator::class;
-
-    /**
-     * @var string
-     */
-    public $message = 'Address {{ address }} is not valid.';
-
-    /**
-     * @param string[]|null $options
-     */
-    public function __construct(?array $options = null, ?string $message = null, ?array $groups = null, $payload = null)
-    {
-        parent::__construct($options, $groups, $payload);
+    public function __construct(
+        public string $message = 'Address {{ address }} is not valid.',
+        public string $service = AddressValidator::class,
+        ?array $groups = null,
+        mixed $payload = null,
+    ) {
+        parent::__construct(null, $groups, $payload);
 
         $this->message = $message ?? $this->message;
     }

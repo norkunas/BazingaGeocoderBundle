@@ -30,7 +30,7 @@ use Symfony\Component\HttpKernel\Kernel;
  */
 final class GeocodeCommandTest extends TestCase
 {
-    private static $address = '10 rue Gambetta, Paris, France';
+    private static string $address = '10 rue Gambetta, Paris, France';
 
     public function testExecute(): void
     {
@@ -66,7 +66,11 @@ final class GeocodeCommandTest extends TestCase
             ->willReturn([]);
 
         $app = new Application($kernel);
-        $app->add((new GeocodeCommand($geocoder))->setName('geocoder:geocode'));
+        if (method_exists($app, 'addCommand')) {
+            $app->addCommand((new GeocodeCommand($geocoder))->setName('geocoder:geocode'));
+        } else {
+            $app->add((new GeocodeCommand($geocoder))->setName('geocoder:geocode'));
+        }
 
         $command = $app->find('geocoder:geocode');
 

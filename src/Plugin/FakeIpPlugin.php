@@ -24,7 +24,7 @@ use Http\Promise\Promise;
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class FakeIpPlugin implements Plugin
+final class FakeIpPlugin implements Plugin
 {
     private ?string $needle;
     private ?string $replacement;
@@ -41,10 +41,7 @@ class FakeIpPlugin implements Plugin
         }
     }
 
-    /**
-     * @return Promise
-     */
-    public function handleQuery(Query $query, callable $next, callable $first)
+    public function handleQuery(Query $query, callable $next, callable $first): Promise
     {
         if (!$query instanceof GeocodeQuery) {
             return $next($query);

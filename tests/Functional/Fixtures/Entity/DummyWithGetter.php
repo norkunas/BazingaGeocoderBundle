@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace Bazinga\GeocoderBundle\Tests\Functional\Fixtures\Entity;
 
-use Bazinga\GeocoderBundle\Mapping\Annotations\Address;
-use Bazinga\GeocoderBundle\Mapping\Annotations\Geocodeable;
-use Bazinga\GeocoderBundle\Mapping\Annotations\Latitude;
-use Bazinga\GeocoderBundle\Mapping\Annotations\Longitude;
+use Bazinga\GeocoderBundle\Mapping\Attributes\Address;
+use Bazinga\GeocoderBundle\Mapping\Attributes\Geocodeable;
+use Bazinga\GeocoderBundle\Mapping\Attributes\Latitude;
+use Bazinga\GeocoderBundle\Mapping\Attributes\Longitude;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;

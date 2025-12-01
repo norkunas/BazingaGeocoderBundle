@@ -10,7 +10,7 @@ First of all, update your entity:
 
 ```php
 
-use Bazinga\GeocoderBundle\Mapping\Annotations as Geocoder;
+use Bazinga\GeocoderBundle\Mapping\Attributes as Geocoder;
 
 /**
  * @Geocoder\Geocodeable
@@ -38,7 +38,7 @@ Instead of annotating a property, you can also annotate a getter:
 
 ```php
 
-use Bazinga\GeocoderBundle\Mapping\Annotations as Geocoder;
+use Bazinga\GeocoderBundle\Mapping\Attributes as Geocoder;
 
 /**
  * @Geocoder\Geocodeable
@@ -103,7 +103,7 @@ If you are using PHP 8, you can use [Attributes](https://www.php.net/manual/en/l
 
 ```php
 
-use Bazinga\GeocoderBundle\Mapping\Annotations as Geocoder;
+use Bazinga\GeocoderBundle\Mapping\Attributes as Geocoder;
 
 #[Geocoder\Geocodeable()]
 class User

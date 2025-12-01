@@ -24,27 +24,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @author Markus Bachmann <markus.bachmann@bachi.biz>
  */
-#[AsCommand(name: 'geocoder:geocode', description: 'Geocode an address or a ip address')]
-class GeocodeCommand extends Command
-{
-    private ProviderAggregator $geocoder;
-
-    public function __construct(ProviderAggregator $geocoder)
-    {
-        $this->geocoder = $geocoder;
-
-        parent::__construct();
-    }
-
-    /**
-     * @return void
-     */
-    protected function configure()
-    {
-        $this
-            ->addArgument('address', InputArgument::REQUIRED, 'The address')
-            ->addOption('provider', null, InputOption::VALUE_OPTIONAL)
-            ->setHelp(<<<'HELP'
+#[AsCommand(
+    name: 'geocoder:geocode',
+    description: 'Geocode an address or a ip address',
+    help: <<<'HELP'
 The <info>geocoder:geocoder</info> command will fetch the latitude
 and longitude from the given address.
 
@@ -52,7 +35,20 @@ You can force a provider with the "provider" option.
 
 <info>php bin/console geocoder:geocoder "Eiffel Tower" --provider=yahoo</info>
 HELP
-            );
+)]
+final class GeocodeCommand extends Command
+{
+    public function __construct(
+        private readonly ProviderAggregator $geocoder
+    ) {
+        parent::__construct();
+    }
+
+    protected function configure(): void
+    {
+        $this
+            ->addArgument('address', InputArgument::REQUIRED, 'The address')
+            ->addOption('provider', null, InputOption::VALUE_OPTIONAL);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

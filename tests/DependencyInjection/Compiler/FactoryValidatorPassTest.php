@@ -33,15 +33,11 @@ final class FactoryValidatorPassTest extends TestCase
     {
         $reflection = new \ReflectionObject($this->compilerPass);
         $prop = $reflection->getProperty('factoryServiceIds');
-        $prop->setAccessible(true);
         $prop->setValue(null, []);
     }
 
     public function testProcessThrows(): void
     {
-        $this->expectException(ServiceNotFoundException::class);
-        $this->expectExceptionMessage("Factory with ID \"$this->factoryId\" could not be found");
-
         $container = $this->createMock(ContainerBuilder::class);
         $container->expects($this->once())
             ->method('hasAlias')
@@ -51,6 +47,9 @@ final class FactoryValidatorPassTest extends TestCase
             ->method('hasDefinition')
             ->with($this->factoryId)
             ->willReturn(false);
+
+        $this->expectException(ServiceNotFoundException::class);
+        $this->expectExceptionMessage("Factory with ID \"$this->factoryId\" could not be found");
 
         $this->compilerPass->process($container);
     }

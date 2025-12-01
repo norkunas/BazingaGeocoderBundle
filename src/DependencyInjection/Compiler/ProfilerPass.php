@@ -22,12 +22,9 @@ use Symfony\Component\DependencyInjection\Reference;
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class ProfilerPass implements CompilerPassInterface
+final class ProfilerPass implements CompilerPassInterface
 {
-    /**
-     * @return void
-     */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition(GeocoderDataCollector::class)) {
             return;

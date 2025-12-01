@@ -138,7 +138,7 @@ final class BundleInitializationTest extends KernelTestCase
         self::assertNull($cacheLifeTime);
     }
 
-    public function testBundleWithPluginsYml(): void
+    public function testBundleWithPluginYml(): void
     {
         self::bootKernel(['config' => static function (TestKernel $kernel) {
             $kernel->addTestConfig(__DIR__.'/config/framework.yml');
@@ -157,28 +157,6 @@ final class BundleInitializationTest extends KernelTestCase
         self::assertInstanceOf(PluginProvider::class, $service);
         $plugins = NSA::getProperty($service, 'plugins');
         self::assertCount(3, $plugins);
-        self::assertInstanceOf(LoggerPlugin::class, $plugins[0]);
-    }
-
-    public function testBundleWithPluginXml(): void
-    {
-        self::bootKernel(['config' => static function (TestKernel $kernel) {
-            $kernel->addTestConfig(__DIR__.'/config/framework.yml');
-
-            if ($kernel::VERSION_ID >= 60000) {
-                $kernel->addTestConfig(__DIR__.'/config/framework_sf6.yml');
-            }
-
-            $kernel->addTestConfig(__DIR__.'/config/service_plugin.xml');
-        }]);
-
-        $container = self::getContainer();
-
-        self::assertTrue($container->has('bazinga_geocoder.provider.acme'));
-        $service = $container->get('bazinga_geocoder.provider.acme');
-        self::assertInstanceOf(PluginProvider::class, $service);
-        $plugins = NSA::getProperty($service, 'plugins');
-        self::assertNotEmpty($plugins);
         self::assertInstanceOf(LoggerPlugin::class, $plugins[0]);
     }
 

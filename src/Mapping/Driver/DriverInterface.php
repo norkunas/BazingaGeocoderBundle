@@ -13,18 +13,14 @@ declare(strict_types=1);
 namespace Bazinga\GeocoderBundle\Mapping\Driver;
 
 use Bazinga\GeocoderBundle\Mapping\ClassMetadata;
+use Bazinga\GeocoderBundle\Mapping\Exception\MappingException;
 
 interface DriverInterface
 {
-    /**
-     * @param object $object
-     */
-    public function isGeocodeable($object): bool;
+    public function isGeocodeable(object $object): bool;
 
     /**
-     * @param object $object
-     *
-     * @return ClassMetadata
+     * @throws MappingException
      */
-    public function loadMetadataFromObject($object);
+    public function loadMetadataFromObject(object $object): ClassMetadata;
 }
